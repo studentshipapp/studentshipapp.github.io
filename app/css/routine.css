@@ -1,0 +1,143 @@
+#appSpace {
+	width: 70%;
+	margin: 0 auto;
+	display: flex;
+	flex-direction: row;
+	align-items: stretch;
+	justify-content: center;
+	padding: 0.5em;
+	flex-wrap: wrap;
+}
+
+#appSpace > div {
+	margin: 0.5em;
+	display: block;
+	min-width: 15em;
+	min-height: 4em;
+	border-radius: 3px;
+	box-sizing: border-box;
+}
+
+/*Loading data*/
+#uiLoader{
+	position: absolute;
+	z-index: 50;
+	background-color: #EEEEEE;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+}
+#welcome{
+	display: flex;
+	width: 100%;
+	height: 100%;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+#welcome > i{
+	font-size: 5em;
+	opacity: 0.3;
+}
+
+#welcome > span {
+	margin-top: 1em;
+	display: block;
+	font-weight: 700;
+	text-transform: uppercase;
+	opacity: 0.5;
+}
+
+#addbtn {
+	position: fixed;
+	bottom: 1em;
+	right: 1em;
+}
+#tabspacer {
+	width: 20em !important;
+}
+#link-day-extr {
+	pointer-events: none !important;
+}
+
+.periodView{
+	display: block;
+	width: 45%;
+	margin: 1em auto;
+	min-width: 20em;
+}
+
+.routine-card {
+	position: relative;
+	margin: 0.5em 0;
+	display: block;
+	min-height: 4em;
+	border-radius: 3px;
+	box-sizing: border-box;
+	padding: 1em;
+	background-color: #3F51B5;
+}
+.time {
+	display: block;
+	color: rgba(255,255,255,0.8);
+	margin-bottom: 0.5em;
+}
+.routine-card > h2 {
+	margin: 0;
+	padding: 0;
+	display: block;
+	line-height: 1.2em;
+	font-size: 1.5em;
+	color: rgba(255,255,255,0.95);
+	font-weight: 400;
+}
+.routine-card>.info{
+	margin-top: 0.5em;
+	display: block;
+}
+.routine-card>.info>span{
+	display: block;
+	color: rgba(255,255,255,0.9);
+}
+.routine-card>.info>span:nth-child(2){
+	opacity: 0.7;
+}
+.routine-card-editbtn {
+	position: absolute;
+	color: white;
+	right: 0.3em;
+	top: 0.3em;
+}
+.routine-card-editbtn > i {
+	font-size: 0.6em;
+	opacity: 0.75;
+}
+.mdl-button--fab{
+	z-index: 15;
+}
+.hidden{
+	display: none !important;
+}
+
+.noPeriods{
+	display: block;
+	padding-right: 0.5em;
+	font-size: 1.1em;
+	text-align: center;
+}
+
+.noPeriods>i {
+	font-size: 6em;
+	display: block;
+	margin: 1em 0 0.3em 0;
+	opacity: 0.2;
+}
+
+@media screen and (max-width: 800px) {
+	.periodView {
+		width: 95%;
+
+	}
+}

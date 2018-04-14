@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Attendance :: Studentship</title>
+		<meta name="theme-color" content="#1B5E20">
+		<meta name="viewport" content="width=device-width, height=device-height, minimum-scale=1.0, initial-scale=1.0, user-scalable=0">
+
+		<!-- Firebase -->
+		<script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/4.11.0/firebase-firestore.js"></script>
+		<script type="text/javascript" src="js/firebase-init.js"></script>
+		<script type="text/javascript" src="js/firebase-auth.js"></script>
+
+		<!-- Google Graphs API -->
+		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+		<!-- MDL Config -->
+		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+		<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.green-blue.min.css">
+		<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+		<link rel="stylesheet" href="css/mdl/overwrites.css" />
+
+		<!-- Custom JS/CSS -->
+		<link rel="stylesheet" type="text/css" href="css/attendance.css"/>
+	</head>
+	<body>
+		<div id="errorbar" class="mdl-js-snackbar mdl-snackbar">
+			<div class="mdl-snackbar__text"></div>
+			<button class="mdl-snackbar__action" type="button"></button>
+		</div>
+		<div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+			<header class="mdl-layout__header">
+				<div class="mdl-layout__header-row">
+
+					<div class="mdl-layout-spacer"></div>
+
+					<button id="demo-menu-lower-right"
+							class="mdl-button mdl-js-button mdl-button--icon">
+						<i class="material-icons">more_vert</i>
+					</button>
+
+					<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
+						for="demo-menu-lower-right">
+						<li class="mdl-menu__item">Help</li>
+						<li class="mdl-menu__item">Feedback</li>
+						<li class="mdl-menu__item">About</li>
+					</ul>
+
+				</div>
+			</header>
+			<div class="mdl-layout__drawer">
+
+				<span class="ui-drawer--hero bg-black">
+					<img id="dw-pic" class="userimage" src="https://avatars0.githubusercontent.com/u/5620531?s=88&v=4">
+						<span class="info">
+							<span id="dw-name">Logging in</span>
+							<button id="demo"
+								class="mdl-button mdl-js-button mdl-button--icon">
+								<i class="material-icons">arrow_drop_down</i>
+							</button>
+							<span id="dw-email" class="subinfo"></span>
+						</span>
+				</span>
+				<ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
+					for="demo">
+					<li class="mdl-menu__item" id="dw-signout">Log Out</li>
+				</ul>
+				<nav class="mdl-navigation">
+					<a class="mdl-navigation__link" href="attendance.html"><i class="material-icons">assessment</i>Attendance</a>
+					<a class="mdl-navigation__link" href="routine.html"><i class="material-icons">class</i>Routine</a>
+					<a class="mdl-navigation__link" href="exam.html"><i class="material-icons">assignment_late</i>Exams</a>
+					<a class="mdl-navigation__link" href="assignment.html"><i class="material-icons">assignment</i>Assignments</a>
+				</nav>
+			</div>
+			<main class="mdl-layout__content">
+				<div class="page-content">
+					<div id="uiLoader">
+						<div id="welcome">
+							<i class="material-icons">wb_sunny</i>
+							<span class="ld-txt">Loading your data</span>
+						</div>
+						<div id="newUser" class="mdl-shadow--4dp hidden">
+							<i class="material-icons">favorite</i><h2>Let's get you started!</h2><br/>
+							<span>
+								Set your first attendance here! Type the total number of classes 
+								you had today, and the number of classes you were present in the feilds down below.
+							</span>
+							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+								<input class="mdl-textfield__input" type="text" pattern="-?[0-9]*?" id="newa-total">
+								<label class="mdl-textfield__label" for="newa-total">Total classes today</label>
+								<span class="mdl-textfield__error">This should be a whole number</span>
+							</div>
+							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+								<input class="mdl-textfield__input" type="text" pattern="-?[0-9]*?" id="newa-pres">
+								<label class="mdl-textfield__label" for="newa-pres">Classes you attended</label>
+								<span class="mdl-textfield__error">This should be a whole number</span>
+							</div>
+							<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" id="firstattensubmit">
+								Add Attendance
+							</button>
+							<span class="error hidden" id="newa-err">
+							</span>
+						</div>
+					</div>
+
+
+					<div id="columnchart_material"></div>
+					<div id="appSpace">
+						<div class="mdl-shadow--2dp" id="totalattendance">
+							<span class="card-header">Current Attendance</span>
+							<div id="pachart"></div>
+							<div id="atten-target">
+								<span id="atten-state"></span>
+								<span id="atten-percent-text"></span>
+								<span id="atten-dtg"></span>
+							</div>
+						</div>
+						<div class="mdl-shadow--2dp" id="thisweek">
+							<span class="card-header">This Week</span>
+							<span id="line-chart">
+								<span id="lineChartBack"></span>
+								<span id="lineChartTop"></span>
+							</span>
+							<span id="tw-info">
+								<b>Classes this week, so far: </b> <span id="tw-classes">0</span><br/>
+								<b>Classes attended: </b> <span id="tw-classattn">0</span>
+							</span>
+						</div>
+						<div class="mdl-shadow--2dp" id="setatten">
+							<span class="card-header">Update attendance</span>
+							<span class="setatten-inside">
+								<b>Classes Today</b>
+								<p>
+									<input class="mdl-slider mdl-js-slider" type="range" id="upat-total" min="0" max="15" value="0" step="1" />
+								</p>
+								<div class="mdl-textfield mdl-js-textfield">
+									<input class="mdl-textfield__input" type="text" id="upat-total-tx" value="0">
+									<label class="mdl-textfield__label" id="upat-txt-sl-total" for="upat-total-tx"></label>
+								</div><br/>
+								<b>Classes Attended</b>
+								<p>
+									<input class="mdl-slider mdl-js-slider" type="range" id="upat-present" min="0" max="15" value="0" step="1" />
+								</p>
+								<div class="mdl-textfield mdl-js-textfield">
+									<input class="mdl-textfield__input" type="text" id="upat-present-tx" value="0">
+									<label class="mdl-textfield__label" id="upat-txt-sl-present" for="upat-present-tx"></label>
+								</div>
+								<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" id="upat-btn">
+									Update Attendance
+								</button>
+								<span class="error hidden" id="atten-err">
+								</span>
+							</span>
+						</div>
+					</div>
+				</div>
+			</main>
+		</div>
+		<div id="account-details"></div>
+		<!-- More custom JS -->
+		<script type="text/javascript" src="js/attendance.js"></script>
+	</body>
+</html>

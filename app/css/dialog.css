@@ -1,0 +1,88 @@
+.sp-dialog {
+	max-height: calc(95vh - 2em);
+	overflow-y: auto;
+	position: fixed;
+	padding: 1.5em;
+	box-sizing: border-box;
+	z-index: 15;
+	top: calc(50vh - 15em);
+	left: calc(50vw - 12em);
+	display: block;
+	min-height: 29em;
+	background-color: white;
+	border-radius: 3px;
+	width: 24em;
+	box-shadow: 0 9px 46px 8px rgba(0, 0, 0, 0.14), 0 11px 15px -7px rgba(0, 0, 0, 0.12), 0 24px 38px 3px rgba(0, 0, 0, 0.2);
+}
+
+.sp-dialog-close{
+	float: right;
+	opacity: 0.8;
+	margin-top: -0.2em;
+}
+
+.sp-dialog-interior {
+	display: block;
+	margin-top: 1em;
+}
+
+.sp-dialog-title {
+	font-size: 1em;
+	display: inline-block;
+	color: rgba(0,0,0,0.7);
+	text-transform: uppercase;
+	font-weight: 700;
+}
+
+#dialog-shade  {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	display: block;
+	z-index: 13;
+	background-color: rgba(0,0,0,0.3);
+}
+
+.mdl-textfield {
+    margin: -0.5em 0 !important;
+}
+
+.halfwidth {
+	display: inline-block;
+	width: calc(50% - 3px);
+	box-sizing: border-box;
+}
+
+.color-container {
+	text-align: center;
+	margin-bottom: 1.5em;
+}
+
+.color-container > span {
+	display: inline-block;
+	vertical-align: top;
+	height: 2em;
+	width: 2em;
+	border-radius: 50%;
+	position: relative;
+}
+
+textarea {
+	resize: none;
+}
+
+.color-container > span > i {
+	position: absolute;
+	top: 0.16em;
+	left: 0.13em;
+	display: block;
+	margin: 0;
+	padding: 0;
+	color: white;
+	font-size: 1.5em;
+}
+.hidden {
+	display: none !important;
+}

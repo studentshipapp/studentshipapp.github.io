@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Routine :: Studentship</title>
+		<meta name="theme-color" content="#1B5E20">
+		<meta name="viewport" content="width=device-width, height=device-height, minimum-scale=1.0, initial-scale=1.0, user-scalable=0">
+
+		<!-- Firebase -->
+		<script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/4.11.0/firebase-firestore.js"></script>
+		<script type="text/javascript" src="js/firebase-init.js"></script>
+		<script type="text/javascript" src="js/firebase-auth.js"></script>
+
+		<!-- Google Graphs API -->
+		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+		<!-- MDL Config -->
+		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+		<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.green-blue.min.css">
+		<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+		<link rel="stylesheet" href="css/mdl/overwrites.css" />
+
+		<!-- Custom JS/CSS -->
+		<link rel="stylesheet" type="text/css" href="css/routine.css"/>
+		<link rel="stylesheet" type="text/css" href="css/dialog.css"/>
+	</head>
+	<body>
+		<div id="errorbar" class="mdl-js-snackbar mdl-snackbar">
+			<div class="mdl-snackbar__text"></div>
+			<button class="mdl-snackbar__action" type="button"></button>
+		</div>
+		<div class="hidden sp-dialog" id="add-dialog">
+			<span class="sp-dialog-title" id="pe-title-text">Add period</span>
+			<span class="sp-dialog-interior">
+				<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+					<input class="mdl-textfield__input" type="text" id="pe-name">
+					<label class="mdl-textfield__label" for="pe-name">Name of the period</label>
+				</div>
+				<div class="halfwidth mdl-textfield mdl-js-textfield">
+					<input class="mdl-textfield__input" type="text" id="pe-from">
+					<label class="mdl-textfield__label" for="pe-from">From</label>
+				</div>
+				<div class="halfwidth mdl-textfield mdl-js-textfield">
+					<input class="mdl-textfield__input" type="text" id="pe-to">
+					<label class="mdl-textfield__label" for="pe-to">To</label>
+				</div>
+				<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+					<input class="mdl-textfield__input" type="text" id="pe-teacher">
+					<label class="mdl-textfield__label" for="pe-teacher">Teacher</label>
+				</div>
+				<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+					<textarea class="mdl-textfield__input" type="text" rows= "3" id="pe-location" ></textarea>
+					<label class="mdl-textfield__label" for="pe-location">Location</label>
+				</div>
+				<div class="color-container">
+					<span id="pe-col-1" class="color-container-item" style="background-color: #F44336;"></span>
+					<span id="pe-col-2" class="color-container-item" style="background-color: #E91E63;"></span>
+					<span id="pe-col-3" class="color-container-item pe-col-selected" style="background-color: #9C27B0;">
+						<i class="material-icons">checked</i>
+					</span>
+					<span id="pe-col-4" class="color-container-item" style="background-color: #673AB7;"></span>
+					<span id="pe-col-5" class="color-container-item" style="background-color: #3F51B5;"></span>
+					<span id="pe-col-6" class="color-container-item" style="background-color: #2196F3;"></span>
+					<span id="pe-col-7" class="color-container-item" style="background-color: #009688;"></span>
+					<span id="pe-col-8" class="color-container-item" style="background-color: #558B2F;"></span>
+					<span id="pe-col-9" class="color-container-item" style="background-color: #E65100;"></span>
+				</div>
+				
+				<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--accent" id="pe-submit">
+					Add
+				</button>
+				<button class="hidden mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--accent" id="pe-replace">
+					Save
+				</button>
+				<button class="mdl-button mdl-js-button mdl-js-ripple-effect" id="pe-cancel">
+					Cancel
+				</button>
+				<button class="mdl-button mdl-js-button mdl-js-ripple-effect hidden" id="pe-delete" style="float: right; color: #F44336;">
+					Delete
+				</button>
+			</span>
+		</div>
+		<span class="hidden" id="dialog-shade"></span>
+
+		<div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+			<header class="mdl-layout__header">
+				<div class="mdl-layout__header-row">
+
+					<span class="mdl-layout-title">Routine</span>
+
+					<div class="mdl-layout-spacer"></div>
+
+					<button id="demo-menu-lower-right"
+							class="mdl-button mdl-js-button mdl-button--icon">
+						<i class="material-icons">more_vert</i>
+					</button>
+
+					<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
+						for="demo-menu-lower-right">
+						<li class="mdl-menu__item">Help</li>
+						<li class="mdl-menu__item">Feedback</li>
+						<li class="mdl-menu__item">About</li>
+					</ul>
+
+				</div>
+				<div class="mdl-layout__tab-bar mdl-js-ripple-effect" id="allDayTabs">
+					<a href="#mon" class="mdl-layout__tab is-active" id="link-day-mon">Mon</a>
+					<a href="#tue" class="mdl-layout__tab" id="link-day-tue">Tue</a>
+					<a href="#wed" class="mdl-layout__tab" id="link-day-wed">Wed</a>
+					<a href="#thu" class="mdl-layout__tab" id="link-day-thu">Thu</a>
+					<a href="#fri" class="mdl-layout__tab" id="link-day-fri">Fri</a>
+					<a href="#sat" class="mdl-layout__tab" id="link-day-sat">Sat</a>
+					<a href="#sun" class="mdl-layout__tab" id="link-day-sun">Sun</a>
+					<a href="#sun" class="mdl-layout__tab" id="link-day-extr">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+				</div>
+			</header>
+			<div class="mdl-layout__drawer">
+
+				<span class="ui-drawer--hero bg-black">
+					<img id="dw-pic" class="userimage" src="https://avatars0.githubusercontent.com/u/5620531?s=88&v=4">
+						<span class="info">
+							<span id="dw-name">Logging in</span>
+							<button id="demo"
+								class="mdl-button mdl-js-button mdl-button--icon">
+								<i class="material-icons">arrow_drop_down</i>
+							</button>
+							<span id="dw-email" class="subinfo"></span>
+						</span>
+				</span>
+				<ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
+					for="demo">
+					<li class="mdl-menu__item" id="dw-signout">Log Out</li>
+				</ul>
+				<nav class="mdl-navigation">
+					<a class="mdl-navigation__link" href="attendance.html"><i class="material-icons">assessment</i>Attendance</a>
+					<a class="mdl-navigation__link" href="routine.html"><i class="material-icons">class</i>Routine</a>
+					<a class="mdl-navigation__link" href="exam.html"><i class="material-icons">assignment_late</i>Exams</a>
+					<a class="mdl-navigation__link" href="assignment.html"><i class="material-icons">assignment</i>Assignments</a>
+				</nav>
+			</div>
+			<main class="mdl-layout__content">
+				<div class="page-content">
+
+					<div id="uiLoader">
+						<div id="welcome">
+							<i class="material-icons">wb_sunny</i>
+							<span class="ld-txt">Loading your data</span>
+						</div>
+					</div>
+
+					<button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored" id="addbtn">
+						<i class="material-icons">add</i>
+					</button>
+
+					<section class="mdl-layout__tab-panel is-active periodView" id="mon">
+      					<div class="noPeriods">
+      						<i class="material-icons">add_circle_outline</i>
+      						Looks like you haven't added a class! Press the + button to add a class
+      					</div>
+      					<span class="periodlister">
+      					</span>
+    				</section>
+
+    				<section class="mdl-layout__tab-panel periodView" id="tue">
+      					<div class="noPeriods">
+      						<i class="material-icons">add_circle_outline</i>
+      						Looks like you haven't added a class! Press the + button to add a class
+      					</div>
+      					<span class="periodlister">
+      					</span>
+    				</section>
+
+    				<section class="mdl-layout__tab-panel periodView" id="wed">
+      					<div class="noPeriods">
+      						<i class="material-icons">add_circle_outline</i>
+      						Looks like you haven't added a class! Press the + button to add a class
+      					</div>
+      					<span class="periodlister">
+      					</span>
+    				</section>
+
+    				<section class="mdl-layout__tab-panel periodView" id="thu">
+      					<div class="noPeriods">
+      						<i class="material-icons">add_circle_outline</i>
+      						Looks like you haven't added a class! Press the + button to add a class
+      					</div>
+      					<span class="periodlister">
+      					</span>
+    				</section>
+
+    				<section class="mdl-layout__tab-panel periodView" id="fri">
+      					<div class="noPeriods">
+      						<i class="material-icons">add_circle_outline</i>
+      						Looks like you haven't added a class! Press the + button to add a class
+      					</div>
+      					<span class="periodlister">
+      					</span>
+    				</section>
+
+    				<section class="mdl-layout__tab-panel periodView" id="sat">
+      					<div class="noPeriods">
+      						<i class="material-icons">add_circle_outline</i>
+      						Looks like you haven't added a class! Press the + button to add a class
+      					</div>
+      					<span class="periodlister">
+      					</span>
+    				</section>
+
+    				<section class="mdl-layout__tab-panel periodView" id="sun">
+      					<div class="noPeriods">
+      						<i class="material-icons">add_circle_outline</i>
+      						Looks like you haven't added a class! Press the + button to add a class
+      					</div>
+      					<span class="periodlister">
+      					</span>
+    				</section>
+				</div>
+			</main>
+		</div>
+		<div id="account-details"></div>
+		<!-- More custom JS -->
+		<script type="text/javascript" src="js/routine.js"></script>
+	</body>
+</html>

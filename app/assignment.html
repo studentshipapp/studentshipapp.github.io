@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Assignments :: Studentship</title>
+		<meta name="theme-color" content="#1B5E20">
+		<meta name="viewport" content="width=device-width, height=device-height, minimum-scale=1.0, initial-scale=1.0, user-scalable=0">
+
+		<!-- Firebase -->
+		<script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/4.11.0/firebase-firestore.js"></script>
+		<script type="text/javascript" src="js/firebase-init.js"></script>
+		<script type="text/javascript" src="js/firebase-auth.js"></script>
+
+		<!-- Google Graphs API -->
+		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+		<!-- MDL Config -->
+		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+		<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.green-blue.min.css">
+		<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+		<link rel="stylesheet" href="css/mdl/overwrites.css" />
+
+		<!-- Custom JS/CSS -->
+		<link rel="stylesheet" type="text/css" href="css/assignments.css"/>
+		<link rel="stylesheet" type="text/css" href="css/dialog.css"/>
+	</head>
+	<body>
+		<div id="errorbar" class="mdl-js-snackbar mdl-snackbar">
+			<div class="mdl-snackbar__text"></div>
+			<button class="mdl-snackbar__action" type="button"></button>
+		</div>
+		<div class="sp-dialog hidden" id="add-dialog">
+			<span class="sp-dialog-title" id="at-title-text">Add assignment</span>
+			<span class="sp-dialog-interior">
+				<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="at-done">
+  					<input type="checkbox" id="at-done" class="mdl-switch__input">
+  					<span class="mdl-switch__label">Completed</span>
+				</label>
+				<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+					<input class="mdl-textfield__input" type="text" id="at-name">
+					<label class="mdl-textfield__label" for="at-name">Title</label>
+				</div>
+				<div class="halfwidth mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+					<input class="mdl-textfield__input" type="text" id="at-given">
+					<label class="mdl-textfield__label" for="at-given">Given on</label>
+				</div>
+				<div class="halfwidth mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+					<input class="mdl-textfield__input" type="text" id="at-submit-on">
+					<label class="mdl-textfield__label" for="at-submit-on">Submit by</label>
+				</div>
+				<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+					<input class="mdl-textfield__input" type="text" id="at-teacher">
+					<label class="mdl-textfield__label" for="at-teacher">Teacher</label>
+				</div>
+				<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+					<textarea class="mdl-textfield__input" type="text" rows= "3" id="at-desc" ></textarea>
+					<label class="mdl-textfield__label" for="at-desc">Description</label>
+				</div>
+				<div class="color-container">
+					<span id="at-col-1" class="color-container-item" style="background-color: #F44336;"></span>
+					<span id="at-col-2" class="color-container-item" style="background-color: #E91E63;"></span>
+					<span id="at-col-3" class="color-container-item at-col-selected" style="background-color: #9C27B0;">
+						<i class="material-icons">checked</i>
+					</span>
+					<span id="at-col-4" class="color-container-item" style="background-color: #673AB7;"></span>
+					<span id="at-col-5" class="color-container-item" style="background-color: #3F51B5;"></span>
+					<span id="at-col-6" class="color-container-item" style="background-color: #2196F3;"></span>
+					<span id="at-col-7" class="color-container-item" style="background-color: cornflowerblue;"></span>
+					<span id="at-col-8" class="color-container-item" style="background-color: #558B2F;"></span>
+					<span id="at-col-9" class="color-container-item" style="background-color: #E65100;"></span>
+				</div>
+				
+				<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--accent" id="at-submit">
+					Add
+				</button>
+				<button class="hidden mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--accent" id="at-replace">
+					Save
+				</button>
+				<button class="mdl-button mdl-js-button mdl-js-ripple-effect" id="at-cancel">
+					Cancel
+				</button>
+				<button class="mdl-button mdl-js-button mdl-js-ripple-effect hidden" id="at-delete" style="float: right; color: #F44336;">
+					Delete
+				</button>
+			</span>
+		</div>
+		<span class="hidden" id="dialog-shade"></span>
+
+		<div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+			<header class="mdl-layout__header">
+				<div class="mdl-layout__header-row">
+
+					<span class="mdl-layout-title">Assignments</span>
+
+					<div class="mdl-layout-spacer"></div>
+
+					<button id="demo-menu-lower-right"
+							class="mdl-button mdl-js-button mdl-button--icon">
+						<i class="material-icons">more_vert</i>
+					</button>
+
+					<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
+						for="demo-menu-lower-right">
+						<li class="mdl-menu__item">Help</li>
+						<li class="mdl-menu__item">Feedback</li>
+						<li class="mdl-menu__item">About</li>
+					</ul>
+
+				</div>
+			</header>
+			<div class="mdl-layout__drawer">
+
+				<span class="ui-drawer--hero bg-black">
+					<img id="dw-pic" class="userimage" src="https://avatars0.githubusercontent.com/u/5620531?s=88&v=4">
+						<span class="info">
+							<span id="dw-name">Logging in</span>
+							<button id="demo"
+								class="mdl-button mdl-js-button mdl-button--icon">
+								<i class="material-icons">arrow_drop_down</i>
+							</button>
+							<span id="dw-email" class="subinfo"></span>
+						</span>
+				</span>
+				<ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
+					for="demo">
+					<li class="mdl-menu__item" id="dw-signout">Log Out</li>
+				</ul>
+				<nav class="mdl-navigation">
+					<a class="mdl-navigation__link" href="attendance.html"><i class="material-icons">assessment</i>Attendance</a>
+					<a class="mdl-navigation__link" href="routine.html"><i class="material-icons">class</i>Routine</a>
+					<a class="mdl-navigation__link" href="exam.html"><i class="material-icons">assignment_late</i>Exams</a>
+					<a class="mdl-navigation__link" href="assignment.html"><i class="material-icons">assignment</i>Assignments</a>
+				</nav>
+			</div>
+			<main class="mdl-layout__content">
+				<div class="page-content">
+
+					<div id="uiLoader">
+						<div id="welcome">
+							<i class="material-icons">wb_sunny</i>
+							<span class="ld-txt">Loading your data</span>
+						</div>
+					</div>
+
+					<button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored" id="addbtn">
+						<i class="material-icons">add</i>
+					</button>
+
+					<div id="empty-maker" class="noasns">
+						<i class="material-icons">add_circle_outline</i>
+      					Looks like you haven't added an assignment! Press the + button to add one
+					</div>
+					<div id="asn-container" class="card-container hidden">
+					</div>
+					<span class="labeled card-container hidden" id="done-label">done</span>
+					<div id="asn-done-container" class="card-container hidden">
+					</div>
+
+				</div>
+			</main>
+		</div>
+		<div id="account-details"></div>
+		<!-- More custom JS -->
+		<script type="text/javascript" src="js/assignments.js"></script>
+		<script type="text/javascript" src="js/moment.js"></script>
+	</body>
+</html>

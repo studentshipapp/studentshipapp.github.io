@@ -1,0 +1,79 @@
+html, body {
+	font-family: 'Roboto', 'Segoe UI', 'Arial', sans-serif;
+	margin: 0;
+	padding: 0;
+}
+
+a {
+	color: white;
+}
+
+body {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	align-items: center;
+	background: url('../../app/img/login-background.jpg');
+	background-size: cover;
+	background-position: bottom;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	color: rgba(255,255,255,0.95);
+}
+
+h1 {
+	//font-family: 'Montserrat', sans-serif;
+	font-size: 1.6em;
+	font-weight: normal;
+	margin: 0;
+	margin-bottom: 0.1em;
+	opacity: 0.9;
+	line-height: 0.9em;
+}
+
+#main {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	border-radius: 3px;
+	padding: 2em;
+	box-sizing: border-box;
+}
+
+#main>img {
+	margin-bottom: 1em;
+}
+
+#main > p{
+	text-align: center;
+}
+
+#shade {
+	display: block;
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background-color: rgba(0,0,0,0.5);
+	z-index: -1;
+}
+
+#firebaseui-auth-container {
+	width: 100% !important;
+}
+
+#footer {
+	margin-top: 0.9em;
+	opacity: 0.2;
+	transition: opacity 0.2s ease-in-out;
+}
+
+#footer:hover {
+	opacity: 0.9;
+}

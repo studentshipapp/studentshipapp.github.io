@@ -1,0 +1,169 @@
+/*Loading data*/
+#uiLoader{
+	position: absolute;
+	z-index: 50;
+	background-color: #EEEEEE;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+}
+#welcome{
+	display: flex;
+	width: 100%;
+	height: 100%;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+#welcome > i{
+	font-size: 5em;
+	opacity: 0.3;
+}
+
+#welcome > span {
+	margin-top: 1em;
+	display: block;
+	font-weight: 700;
+	text-transform: uppercase;
+	opacity: 0.5;
+}
+
+#addbtn {
+	position: fixed;
+	bottom: 1em;
+	right: 1em;
+}
+#tabspacer {
+	width: 20em !important;
+}
+#link-day-extr {
+	pointer-events: none !important;
+}
+
+.asnView{
+	display: block;
+	width: 45%;
+	margin: 1em auto;
+	min-width: 20em;
+}
+
+.asn-card {
+	border-radius: 3px;
+}
+.asn-card > .info {
+	position: relative;
+	margin: 0.5em 0;
+	display: block;
+	min-height: 4em;
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
+	box-sizing: border-box;
+	padding: 1em;
+	background-color: cornflowerblue;
+}
+
+.asn-card> .info > .date {
+	display: block;
+	color: rgba(255,255,255,0.8);
+	margin-bottom: 0.5em;
+}
+.asn-card> .info > h2 {
+	margin: 0;
+	padding: 0;
+	display: block;
+	line-height: 1.2em;
+	font-size: 1.5em;
+	color: rgba(255,255,255,0.95);
+	font-weight: 400;
+}
+.asn-card> .info > .teacher{
+	margin-top: 0.5em;
+	display: block;
+}
+.asn-card>.info>span{
+	display: block;
+	color: rgba(255,255,255,0.9);
+}
+.asn-card>.info>span:nth-child(2){
+	opacity: 0.7;
+}
+.asn-card-editbtn {
+	position: absolute;
+	color: white;
+	right: 0.3em;
+	top: 0.3em;
+}
+.asn-card-donebtn {
+	position: absolute;
+	color: white;
+	right: 0.3em;
+	top: 1.7em;
+}
+.asn-card-deletebtn{
+	position: absolute;
+	color: white;
+	right: 0.3em;
+	top: 1.7em;
+}
+.asn-card-editbtn > i {
+	font-size: 0.6em;
+	opacity: 0.75;
+}
+.asn-card-donebtn > i {
+	font-size: 0.65em;
+	opacity: 0.75;
+	margin-left: 0.2em;
+}
+.asn-card-deletebtn > i {
+	font-size: 0.75em;
+	opacity: 0.75;
+	margin-left: 0.05em;
+}
+.mdl-button--fab{
+	z-index: 15;
+}
+.extra-info{
+	display: block;
+	padding: 1em;
+	padding-top: 0.8em;
+	line-height: 1.5em;
+}
+.card-container {
+	width: 40%;
+	margin: 1em auto;
+}
+.hidden{
+	display: none !important;
+}
+
+.noasns{
+	display: block;
+	padding-right: 0.5em;
+	font-size: 1.1em;
+	text-align: center;
+}
+
+.noasns>i {
+	font-size: 6em;
+	display: block;
+	margin: 1em 0 0.3em 0;
+	opacity: 0.2;
+}
+
+.labeled {
+	display: block;
+	font-size: 1em;
+	opacity: 0.8;
+	font-weight: 700;
+	text-transform: uppercase;
+	margin-top: 1.5em;
+	margin-bottom: 0.5em;
+}
+
+@media screen and (max-width: 800px) {
+	.card-container {
+		width: 95%;
+	}
+}
