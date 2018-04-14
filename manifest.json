@@ -1,0 +1,39 @@
+{
+  "short_name": "Studentship",
+  "name": "Studentship Beta",
+  "icons": [
+    {
+      "src": "app/img/appbranding/48x48.png",
+      "type": "image/png",
+      "sizes": "48x48"
+    },
+    {
+      "src": "app/img/appbranding/96x96.png",
+      "type": "image/png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "app/img/appbranding/128x128.png",
+      "type": "image/png",
+      "sizes": "128x128"
+    },
+    {
+      "src": "app/img/appbranding/144x144.png",
+      "type": "image/png",
+      "sizes": "144x144"
+    },
+    {
+      "src": "app/img/appbranding/152x152.png",
+      "type": "image/png",
+      "sizes": "152x152"
+    },
+    {
+      "src": "app/img/appbranding/192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }],
+  "background_color": "#2E7D32",
+  "theme_color": "#2E7D32",
+  "display": "standalone",
+  "start_url": "app/attendance.html"
+}
